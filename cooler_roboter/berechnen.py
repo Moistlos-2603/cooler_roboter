@@ -5,6 +5,7 @@ def grad_y(mm):
 
     grad = mm * 360 / v / u
     print(grad)
+    return grad
 
 def grad_x(mm):
     u = 124
@@ -12,6 +13,7 @@ def grad_x(mm):
 
     grad = mm * 360 / v / u
     print(grad)
+    return grad
 
 if __name__ == "__main__":
     grad_y(1)
