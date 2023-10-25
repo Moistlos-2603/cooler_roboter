@@ -1,17 +1,17 @@
-def grad_y(mm):
-    d = 43.2
-    u = d * 3.1415926535
-    v = 1/3
+def grad_y(mm:int)->int:
+    durchmesser = 43.2
+    umfang = durchmesser * 3.1415926535
+    verhältnis = 1/3
 
-    grad = mm * 360 / v / u
+    grad = mm * 360 / verhältnis / umfang
     print(grad)
     return grad
 
-def grad_x(mm):
-    u = 124
-    v = 1/3
+def grad_x(mm:int)->int:
+    umfang = 124
+    verhältnis = 1/3
 
-    grad = mm * 360 / v / u
+    grad = mm * 360 / verhältnis / umfang
     print(grad)
     return grad
 
