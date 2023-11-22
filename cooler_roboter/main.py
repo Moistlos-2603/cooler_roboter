@@ -64,14 +64,15 @@ def einziehen(ev3):
 einziehen(ev3)
 write = False
 
+
 xAchse = Motor(Port.C)
 yAchse = Motor(Port.A)
-  
+
 def schreiben(ev3,write:bool)->bool:
     zAchse = Motor(Port.B)
     zAchse.run_angle(250, 180)
     return not write
-
+"""
 X = Reifen(1/3, umfang = 124)
 Y = Reifen(1/3, durchmesser = 43.2)
 
@@ -82,11 +83,20 @@ distanzY = Y.grad(-20)
 
 xAchse.run_angle(250, distanzX)
 yAchse.run_angle(250, distanzY)
+"""
+
+write = schreiben(ev3, write)
+
+yAchse.run_time(-200, 3000, wait=False)
+xAchse.run_time(-200,3000)
+
 
 if write == True:
     write = schreiben(ev3, write)
 
-yAchse.run_angle(250, 2000)
+time.sleep(2)
+
+yAchse.run_angle(250, 1000)
 
 
     
