@@ -40,16 +40,10 @@ ev3 = EV3Brick()
 
 #aufgabe1(ev3)
 
-def resetZ(ev3):
-    zAchse = Motor(Port.B)
-    zAchse.run_angle(300, 180)
-
 def einziehen(ev3):
     yAchse = Motor(Port.A)
     zAchse = Motor(Port.B)
     xAchse = Motor(Port.C)
-
-    #xAchse.run_angle(500,rotation_angle=-360)
 
     sensorColor = ColorSensor(Port.S1)
     sensorTouch = TouchSensor(Port.S2)
