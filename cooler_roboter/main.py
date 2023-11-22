@@ -37,7 +37,43 @@ ev3 = EV3Brick()
 # def donw():
 #   z_achse.run_target(500, 180)
 
-aufgabe1(ev3)
-  
+#aufgabe1(ev3)
 
+def resetZ(ev3):
+    zAchse = Motor(Port.B)
+    zAchse.run_angle(300, 180)
+
+def einziehen(ev3):
+    yAchse = Motor(Port.A)
+    zAchse = Motor(Port.B)
+    xAchse = Motor(Port.C)
+
+    #xAchse.run_angle(500,rotation_angle=-360)
+
+    sensorColor = ColorSensor(Port.S1)
+    sensorTouch = TouchSensor(Port.S2)
+
+    xAchse.run(250)
+    while not sensorTouch.pressed():
+        pass
+    xAchse.hold()
+
+    yAchse.run(-250)
+    while sensorColor.reflection() < 50:
+        pass
+    yAchse.hold()
+    print(sensorColor.reflection())
+
+
+
+einziehen(ev3)
+write = False
+
+  
+def schreiben(ev3,write:bool)->bool:
+    zAchse = Motor(Port.B)
+    zAchse.run_angle(250, 180)
+    return not write
+
+    
 

@@ -18,3 +18,5 @@ class Reifen:
 if __name__ == "__main__":
     xAchse = Reifen(1/3, umfang = 124)
     yAchse = Reifen(1/3, durchmesser = 43.2)
+
+    
