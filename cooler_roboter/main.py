@@ -1,4 +1,4 @@
-#!/usr/bin/env pybricks-micropython
+#!/usr/bin/env python
 from pybricks.hubs import EV3Brick
 from pybricks.ev3devices import (Motor, TouchSensor, ColorSensor,
                                  InfraredSensor, UltrasonicSensor, GyroSensor)
@@ -6,11 +6,15 @@ from pybricks.parameters import Port, Stop, Direction, Button, Color
 from pybricks.tools import wait, StopWatch, DataLog
 from pybricks.robotics import DriveBase
 from pybricks.media.ev3dev import SoundFile, ImageFile
+
 import time
 
 from module.muski import alle_meine_entchen
 from module.aufgaben import aufgabe1
 from berechnen import *
+
+
+from ev3dev2.motor import LargeMotor, OUTPUT_A, OUTPUT_B, OUTPUT_C, SpeedPercent, MoveTank, MediumMotor
 
 # This program requires LEGO EV3 MicroPython v2.0 or higher.
 # Click "Open user guide" on the EV3 extension tab for more information.
@@ -40,54 +44,63 @@ ev3 = EV3Brick()
 
 #aufgabe1(ev3)
 
-def einziehen(ev3):
-    yAchse = Motor(Port.A)
-    zAchse = Motor(Port.B)
-    xAchse = Motor(Port.C)
+# def einziehen(ev3):
+#     yAchse = Motor(Port.A)
+#     zAchse = Motor(Port.B)
+#     xAchse = Motor(Port.C)
 
-    sensorColor = ColorSensor(Port.S1)
-    sensorTouch = TouchSensor(Port.S2)
+#     sensorColor = ColorSensor(Port.S1)
+#     sensorTouch = TouchSensor(Port.S2)
 
-    xAchse.run(250)
-    while not sensorTouch.pressed():
-        pass
-    xAchse.hold()
+#     xAchse.run(250)
+#     while not sensorTouch.pressed():
+#         pass
+#     xAchse.hold()
 
-    yAchse.run(-250)
-    while sensorColor.reflection() < 50:
-        pass
-    yAchse.hold()
-    print(sensorColor.reflection())
+#     yAchse.run(-250)
+#     while sensorColor.reflection() < 50:
+#         pass
+#     yAchse.hold()
+#     print(sensorColor.reflection())
 
 
 
-einziehen(ev3)
-write = False
+# einziehen(ev3)
+# write = False
 
-xAchse = Motor(Port.C)
-yAchse = Motor(Port.A)
+# xAchse = Motor(Port.C)
+# yAchse = Motor(Port.A)
   
-def schreiben(ev3,write:bool)->bool:
-    zAchse = Motor(Port.B)
-    zAchse.run_angle(250, 180)
-    return not write
+# def schreiben(ev3,write:bool)->bool:
+#     zAchse = Motor(Port.B)
+#     zAchse.run_angle(250, 180)
+#     return not write
 
-X = Reifen(1/3, umfang = 124)
-Y = Reifen(1/3, durchmesser = 43.2)
+# X = Reifen(1/3, umfang = 124)
+# Y = Reifen(1/3, durchmesser = 43.2)
 
-write = schreiben(ev3, write)
+# write = schreiben(ev3, write)
 
-distanzX = X.grad(-20)
-distanzY = Y.grad(-20)
+# distanzX = X.grad(-20)
 
-xAchse.run_angle(250, distanzX)
-yAchse.run_angle(250, distanzY)
+# xAchse.run_angle(250, distanzX)
+# yAchse.run_angle(250, distanzY)
 
-if write == True:
-    write = schreiben(ev3, write)
+# if write == True:
+#     write = schreiben(ev3, write)
 
-yAchse.run_angle(250, 2000)
+# yAchse.run_angle(250, 2000)
 
+# class cord_system:
+#     # 1 = 1 mm
+#     def __init__(self) -> None:
+#         self.x_position = 0
+#         self.y_position = 0
+#     def go_to_Positon(x:int, y:int):
+#         tank_driver = MoveTank(OUTPUT_C, OUTPUT_B)
+    
 
     
 
+tank_driver = MoveTank(OUTPUT_C, OUTPUT_A, motor_class=LargeMotor)
+tank_driver.on(50, 50)
