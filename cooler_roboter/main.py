@@ -11,6 +11,7 @@ import time
 from module.muski import alle_meine_entchen
 from module.aufgaben import aufgabe1
 from berechnen import *
+from buildhat import *
 
 # This program requires LEGO EV3 MicroPython v2.0 or higher.
 # Click "Open user guide" on the EV3 extension tab for more information.
@@ -59,19 +60,28 @@ def einziehen(ev3):
     yAchse.hold()
     print(sensorColor.reflection())
 
+def schreiben(ev3,write:bool)->bool:
+    zAchse = Motor(Port.B)
+    zAchse.run_angle(250, 180)
+    return not write
+
+schreiben(ev3,True)
 
 
 einziehen(ev3)
 write = False
 
+write = schreiben(ev3, write)
+
 
 xAchse = Motor(Port.C)
 yAchse = Motor(Port.A)
 
-def schreiben(ev3,write:bool)->bool:
-    zAchse = Motor(Port.B)
-    zAchse.run_angle(250, 180)
-    return not write
+pair = MotorPair(yAchse, xAchse)
+
+pair.set_default_speed(500)
+pair.run_for_degrees(720)
+
 """
 X = Reifen(1/3, umfang = 124)
 Y = Reifen(1/3, durchmesser = 43.2)
@@ -85,10 +95,8 @@ xAchse.run_angle(250, distanzX)
 yAchse.run_angle(250, distanzY)
 """
 
-write = schreiben(ev3, write)
-
-yAchse.run_time(-200, 3000, wait=False)
-xAchse.run_time(-200,3000)
+#yAchse.run_time(-200, 3000, wait=False)
+#xAchse.run_time(-200,3000)
 
 
 if write == True:
