@@ -22,7 +22,6 @@ from buildhat import *
 # 7.95756*50=397.878
 # ein mm = 8 
 
-
 # Create your objects here.
 ev3 = EV3Brick()
 # y_achse = Motor(Port.A)
