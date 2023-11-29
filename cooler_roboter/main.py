@@ -11,7 +11,6 @@ import time
 from module.muski import alle_meine_entchen
 from module.aufgaben import aufgabe1
 from berechnen import *
-from buildhat import *
 
 # This program requires LEGO EV3 MicroPython v2.0 or higher.
 # Click "Open user guide" on the EV3 extension tab for more information.
@@ -76,10 +75,6 @@ write = schreiben(ev3, write)
 xAchse = Motor(Port.C)
 yAchse = Motor(Port.A)
 
-pair = MotorPair(yAchse, xAchse)
-
-pair.set_default_speed(500)
-pair.run_for_degrees(720)
 
 """
 X = Reifen(1/3, umfang = 124)
