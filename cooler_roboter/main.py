@@ -63,7 +63,7 @@ def schreiben(ev3,write:bool)->bool:
     zAchse.run_angle(250, 180)
     return not write
 
-class myThread(threading.Thread):
+"""class myThread(threading.Thread):
     def __init__(self, achse, name):
         threading.Thread.__init__(self)
         self.achse = achse
@@ -71,42 +71,71 @@ class myThread(threading.Thread):
 
     def run(self):
         print("Starting: " + self.name + "\n")
+        threadLock.acquire(blocking = False)
         self.achse.run_time(-200,3000)
-
+        threadLock.release()
         print("Exiting: " + self.name + "\n")
 
-def zeug():
 
-    print("hi")
-    ev3 = EV3Brick()
+threadLock = threading.Lock()
 
-    write = True
 
+print("hi")
+ev3 = EV3Brick()
+write = False
+
+einziehen(ev3)
+write = schreiben(ev3, write)
+
+xAchse = Motor(Port.C)
+yAchse = Motor(Port.A)
+
+thread1 = myThread(yAchse, "Y Achse")
+thread2 = myThread(xAchse, "X Achse")
+thread1.start()
+thread2.start()
+
+print("Done main thread")
+
+if write == True:
     write = schreiben(ev3, write)
 
-    einziehen(ev3)
+yAchse.run_angle(250, 1000)"""
 
-    write = schreiben(ev3, write)
+class myThread(threading.Thread):
+    def __init__(self, threadId, name, count):
+        threading.Thread.__init__(self)
+        self.threadId = threadId
+        self.name = name
+        self.count = count
 
-    xAchse = Motor(Port.C)
-    yAchse = Motor(Port.A)
+    def run(self):
+        print("Starting: " + self.name + "\n")
+        threadLock.acquire()
+        print_time(self.name, 1,self.count)
+        threadLock.release()
+        print("Exiting: " + self.name + "\n")
 
-    thread1 = myThread(yAchse, "Y Achse")
-    thread2 = myThread(xAchse, "X Achse")
+
+def print_time(name, delay, count):
+    while count:
+        time.sleep(delay)
+        print ("%s: %s %s" % (name, time.ctime(time.time()), count) + "\n")
+        count -= 1
 
 
-    thread1.start()
-    thread2.start()
-    thread1.join()
-    thread2.join()
-    print("Done main thread")
+threadLock = threading.Lock()
 
-    if write == True:
-        write = schreiben(ev3, write)
+thread1 = myThread(1, "Thread 1", 5)
+thread2 = myThread(2, "Thread 2", 5)
 
-    yAchse.run_angle(250, 1000)
 
-zeug()
+thread1.start()
+thread2.start()
+thread1.join()
+thread2.join()
+print("Done main thread")
+
 
 
     
