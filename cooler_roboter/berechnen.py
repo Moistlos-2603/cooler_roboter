@@ -11,7 +11,7 @@ class Reifen:
         else:
             self.umfang = umfang
 
-    def grad(self, mm:int)->int:
+    def mm_to_grad(self, mm:int)->int:
         return int(mm * 360 / self.verhältnis / self.umfang)
 
 
