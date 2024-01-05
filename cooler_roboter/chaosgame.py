@@ -18,9 +18,6 @@ class Chaosgame():
   def check_if_inside(self):
     pass
 
-  def distens(self, point0:(int, int), point1:(int, int)):
-    return math.sqrt((point0[0]-point1[0])**2 + (point0[0]-point1[1])**2)
-
   def area(self):
     pass
   
@@ -94,9 +91,6 @@ class Chaosgame_Dreieck(Chaosgame):
       return True
     else:
       return False
-
-  #def distens(point0:(int, int), point1:(int, int)):
-  #  return math.sqrt((point0[0]-point1[0])**2 + (point0[0]-point1[1])**2)
   
   def area(self, point0:(int, int), point1:(int, int), point2:(int, int)):
     x0 = point0[0]
