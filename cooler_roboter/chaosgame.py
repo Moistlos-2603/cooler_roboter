@@ -36,30 +36,43 @@ class Chaosgame_Dreieck(Chaosgame):
                init_punkte = ((250, 50), (150, 200), (350, 200))
                
                ) -> None:
-    self.controler = Main_Controler
+    self.controler = Main_Controler()
     self.init_punkt1 = init_punkte[0]
     self.init_punkt2 = init_punkte[1] 
     self.init_punkt3 = init_punkte[2]
 
-    self.controler.point(self.init_punkt1)
-    self.controler.point(self.init_punkt2)
-    self.controler.point(self.init_punkt3)
+    print("1")
+    self.controler.point(*self.init_punkt1)
+    print("2")
+    self.controler.point(*self.init_punkt2)
+    print("3")
+    self.controler.point(*self.init_punkt3)
+
+    self.controler.einziehen()
+    self.controler.zero()
+
 
     self.first_point()
 
   def first_point(self):
     not_inside = True
     while not_inside:
-      first_point = (random.randint(self.init_punkt2[0], self.init_punkt3[0]), 
-                     random.randint(self.init_punkt1[1], self.init_punkt2[1]))
-      if self.check_if_inside():
+      a = int(self.init_punkt2[0])
+      b = int(self.init_punkt3[0])
+      c = int(self.init_punkt2[1])
+      d = int(self.init_punkt1[1])
+      print(str(a) + ", " +str(b)+ ", " +str(c)+ ", " +str(d))
+      first_point = (random.randint(a,b), 
+                     random.randint(c,d))
+      if self.check_if_inside(first_point):
         not_inside = False
-        self.controler.point(first_point)
+        self.controler.point(*first_point)
         point = first_point
 
   def game(self, iterations = 1000):
     eckpunkte = {0 : self.init_punkt1, 1:self.init_punkt2, 2:self.init_punkt3}
     for i in range(iterations):
+      print(i)
       point_id = random.randint(0, 2)
       self.point = self.new_pos(self.point, eckpunkte[point_id])
       self.controler.point(self.point)

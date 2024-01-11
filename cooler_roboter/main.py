@@ -11,7 +11,9 @@ from module.muski import alle_meine_entchen
 from module.aufgaben import aufgabe1
 from berechnen import *
 import _thread
+from chaosgame import Chaosgame_Dreieck
 
+from main_controler import Main_Controler
 # This program requires LEGO EV3 MicroPython v2.0 or higher.
 # Click "Open user guide" on the EV3 extension tab for more information.
 
@@ -22,7 +24,7 @@ import _thread
 # ein mm = 8 
 
 # Create your objects here.
-ev3 = EV3Brick()
+# ev3 = EV3Brick()
 # y_achse = Motor(Port.A)
 # z_achse = Motor(Port.B)
 # x_achse = Motor(Port.C)
@@ -67,29 +69,42 @@ def th_func(achse, name):
     achse.run_time(-200,3000)
     print("Exiting: " + name + "\n")
 
-ev3 = EV3Brick()
-write = False
+# ev3 = EV3Brick()
+# write = False
 
-einziehen(ev3)
-write = schreiben(ev3, write)
+# einziehen(ev3)
+# write = schreiben(ev3, write)
 
-xAchse = Motor(Port.C)
-yAchse = Motor(Port.A)
+# xAchse = Motor(Port.C)
+# yAchse = Motor(Port.A)
 
-_thread.start_new_thread(th_func, (yAchse, "Y Achse"))
-_thread.start_new_thread(th_func, (xAchse, "X Achse"))
+# _thread.start_new_thread(th_func, (yAchse, "Y Achse"))
+# _thread.start_new_thread(th_func, (xAchse, "X Achse"))
 
-time.sleep(0.1)
-while yAchse.speed()!=0:
-    print(yAchse.speed())
+# time.sleep(0.1)
+# while yAchse.speed()!=0:
+#     print(yAchse.speed())
 
 
 
-if write == True:
-    write = schreiben(ev3, write)
+# if write == True:
+#     write = schreiben(ev3, write)
 
-yAchse.run_angle(250, 1000)
+# yAchse.run_angle(250, 1000)
 
 
     
 
+roboter = Main_Controler()
+# 
+roboter.einziehen()
+roboter.zero()
+# roboter.run_z(-90)
+roboter.to(40, 40)
+roboter.to(20, 20)
+
+# roboter.line(50, 50, 70, 70)
+
+
+# Chaosgame = Chaosgame_Dreieck(init_punkte=((50, 50), (25,25), (75, 25)))
+# Chaosgame.game()
