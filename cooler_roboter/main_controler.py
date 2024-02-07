@@ -6,6 +6,7 @@ import _thread
 import time
 from module import muski
 from berechnen import Reifen
+import uasyncio as asyncio
 
 class Main_Controler:
   initiated = False
@@ -39,7 +40,8 @@ class Main_Controler:
     self.xAchse = xAchse
     self.yAchse = yAchse
     self.zAchse = zAchse
-
+    self.x_thread_finished = False
+    self.y_thread_finished = False
     self.sensorColor = sensorColor
     self.sensorTouch = sensorTouch
 
@@ -48,6 +50,10 @@ class Main_Controler:
     # print(achse + "\n")
     achse.run_time(int(speed), int(time_ms))
     print("Exiting: " + name + "\n")
+    if name == "X Achse":
+      self.x_thread_finished = True
+    else:
+      self.y_thread_finished = True
 
   def thread_muski(self, ev3):
     muski.alle_meine_entchen(ev3)
@@ -55,7 +61,7 @@ class Main_Controler:
   def start_musik(self):
     _thread.start_new_thread(self.thread_muski, (self.ev3))
 
-  def to(self, x, y, max_speed=100) -> None:
+  def to_alt(self, x, y, max_speed=100) -> None:
     delt_x = x - self.x_cord
     delt_y = y - self.y_cord
     self.x_cord = x
@@ -84,35 +90,54 @@ class Main_Controler:
       _thread.start_new_thread(self.Thread_run_time, (self.xAchse, "Y Achse", x_speed, run_time))
       _thread.start_new_thread(self.Thread_run_time, (self.yAchse, "X Achse", y_speed, run_time))
       
-  def to_v2(self, x, y, max_speed= 50) -> None:
-    delt_x = x - self.x_cord
-    delt_y = y - self.y_cord
+  def to(self, x, y, max_speed= 50) -> None:
+    delt_x_grad = self.xAchse_rechner.mm_to_grad(x - self.x_cord)
+    delt_y_grad = self.yAchse_rechner.mm_to_grad(y - self.y_cord)
     self.x_cord = x
     self.y_cord = y
 
-    if delt_x == 0 and delt_y == 0:
+    
+
+    if delt_x_grad == 0 and delt_y_grad == 0:
       return None
-    elif delt_x == delt_y:
-      run_time = abs((self.xAchse_rechner.mm_to_grad(delt_x)/max_speed) * 1000)
-      x_speed = max_speed
-      y_speed = max_speed
-    elif abs(delt_x) > abs(delt_y):
-      pass
+    
+    elif delt_x_grad == 0:
+      y_speed = max_speed if delt_y_grad > 0 else -max_speed
+      run_time = abs((delt_y_grad/max_speed) * 1000)
+      _thread.start_new_thread(self.thread_run_time, (self.yAchse, "Y Achse", y_speed, run_time))
+      while not self.y_thread_finished:
+        pass
+      self.y_thread_finished = False
+
+    elif delt_y_grad == 0:
+      x_speed = max_speed if delt_x_grad > 0 else -max_speed
+      run_time = abs((delt_x_grad/max_speed) * 1000)
+      _thread.start_new_thread(self.thread_run_time, (self.xAchse, "X Achse", x_speed, run_time))
+      while not self.x_thread_finished:
+        pass
+      self.x_thread_finished = False
+
     else:
-      pass
-  
-
-
-
-    _thread.start_new_thread(self.Thread_run_time, (self.xAchse, "Y Achse", x_speed, run_time))
-    _thread.start_new_thread(self.Thread_run_time, (self.yAchse, "X Achse", y_speed, run_time))
-
-
-
-
-
-
-
+      run_time= 0
+      x_speed = 0
+      y_speed = 0
+      if abs(delt_x_grad) > abs(delt_y_grad):
+        x_speed = max_speed if delt_x_grad > 0 else -max_speed
+        y_speed = (max_speed/abs(delt_x_grad)) * delt_y_grad
+        run_time = abs((delt_x_grad/max_speed) * 1000)
+      else:
+        x_speed = (max_speed/abs(delt_y_grad)) * delt_x_grad
+        y_speed = max_speed if delt_y_grad > 0 else -max_speed
+        run_time = abs((delt_y_grad/max_speed) * 1000)
+        
+      _thread.start_new_thread(self.thread_run_time, (self.yAchse, "Y Achse", y_speed, run_time))
+      _thread.start_new_thread(self.thread_run_time, (self.xAchse, "X Achse", x_speed, run_time))
+      while (not self.x_thread_finished) or (not self.y_thread_finished):
+        pass
+      self.x_thread_finished = False
+      self.y_thread_finished = False
+      
+      
 
   def point(self, x, y):
     self.to(x,y)
