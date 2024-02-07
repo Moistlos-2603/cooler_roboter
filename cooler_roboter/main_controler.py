@@ -61,35 +61,7 @@ class Main_Controler:
   def start_musik(self):
     _thread.start_new_thread(self.thread_muski, (self.ev3))
 
-  def to_alt(self, x, y, max_speed=100) -> None:
-    delt_x = x - self.x_cord
-    delt_y = y - self.y_cord
-    self.x_cord = x
-    self.y_cord = y
 
-    if delt_x == 0 and delt_y == 0:
-      return None
-
-    if abs(delt_x) > abs(delt_y):
-      x_speed = -max_speed
-      y_speed = -((max_speed/self.xAchse_rechner.mm_to_grad(delt_x)) * self.yAchse_rechner.mm_to_grad(delt_y))
-      run_time = abs((self.xAchse_rechner.mm_to_grad(delt_x)/max_speed) * 1000)
-
-      _thread.start_new_thread(self.Thread_run_time, (self.xAchse, "Y Achse", x_speed, run_time))
-      _thread.start_new_thread(self.Thread_run_time, (self.yAchse, "X Achse", y_speed, run_time))
-      
-
-    elif abs(delt_x) == abs(delt_y) :
-      _thread.start_new_thread(self.Thread_run_time, (self.xAchse, "Y Achse", x_speed, run_time))
-      _thread.start_new_thread(self.Thread_run_time, (self.yAchse, "X Achse", y_speed, run_time))
-    else:
-      x_speed = -((max_speed/self.yAchse_rechner.mm_to_grad(delt_y)) * self.xAchse_rechner.mm_to_grad(delt_x))
-      y_speed = -max_speed
-      run_time = abs((self.xAchse_rechner.mm_to_grad(delt_y)/max_speed) * 1000)
-
-      _thread.start_new_thread(self.Thread_run_time, (self.xAchse, "Y Achse", x_speed, run_time))
-      _thread.start_new_thread(self.Thread_run_time, (self.yAchse, "X Achse", y_speed, run_time))
-      
   def to(self, x, y, max_speed= 50) -> None:
     delt_x_grad = self.xAchse_rechner.mm_to_grad(x - self.x_cord)
     delt_y_grad = self.yAchse_rechner.mm_to_grad(y - self.y_cord)
