@@ -6,7 +6,7 @@ import _thread
 import time
 from module import muski
 from berechnen import Reifen
-import uasyncio as asyncio
+
 
 class Main_Controler:
   initiated = False
@@ -62,13 +62,11 @@ class Main_Controler:
     _thread.start_new_thread(self.thread_muski, (self.ev3))
 
 
-  def to(self, x, y, max_speed= 50) -> None:
+  def to(self, x, y, max_speed= 130) -> None:
     delt_x_grad = self.xAchse_rechner.mm_to_grad(x - self.x_cord)
     delt_y_grad = self.yAchse_rechner.mm_to_grad(y - self.y_cord)
     self.x_cord = x
     self.y_cord = y
-
-    
 
     if delt_x_grad == 0 and delt_y_grad == 0:
       return None
@@ -108,19 +106,17 @@ class Main_Controler:
         pass
       self.x_thread_finished = False
       self.y_thread_finished = False
-      
-      
 
   def point(self, x, y):
     self.to(x,y)
-    time.sleep(5)
+    
     self.pen_up_or_down()
     self.pen_up_or_down()
 
   def pen_up_or_down(self):
     print("pen up or donw")
     self.zAchse.run_angle(100, 180)
-    time.sleep(0.5)
+    time.sleep(0.2)
 
   def line(self, x1, y1, x2, y2):
     self.to(x1,y1)
@@ -130,7 +126,7 @@ class Main_Controler:
 
   def einziehen(self):
     self.yAchse.run(250)
-    while self.sensorColor.reflection() < 50:
+    while self.sensorColor.reflection() < 30:
         pass
     self.yAchse.hold()
 
@@ -146,11 +142,13 @@ class Main_Controler:
     # sorgt dafür das wir genau wissen wo die Y Achse ist
     self.einziehen()
     self.yAchse.run(-250)
-    while self.sensorColor.reflection() > 50:
+    while self.sensorColor.reflection() > 30:
       pass
     self.yAchse.hold()
     # Bringt Y Achse an die start situation 
     self.run_y_grad(-200)
+    self.x_cord = 0
+    self.y_cord = 0
 
   def run_x_grad(self, grad):
     self.xAchse.run_angle(500,grad)
