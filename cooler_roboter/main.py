@@ -1,20 +1,14 @@
 #!/usr/bin/env pybricks-micropython
-from pybricks.hubs import EV3Brick
-from pybricks.ev3devices import (Motor, TouchSensor, ColorSensor,
-                                 InfraredSensor, UltrasonicSensor, GyroSensor)
-from pybricks.parameters import Port, Stop, Direction, Button, Color
-from pybricks.tools import wait, StopWatch, DataLog
-from pybricks.robotics import DriveBase
-from pybricks.media.ev3dev import SoundFile, ImageFile
+from chaosgame import Chaosgame_Dreieck
+from main_controler import Main_Controler
+
+    
+# roboter = Main_Controler()
+# roboter.run_z_grad(80)
 
 
-# This program requires LEGO EV3 MicroPython v2.0 or higher.
-# Click "Open user guide" on the EV3 extension tab for more information.
 
 
-# Create your objects here.
-ev3 = EV3Brick()
-test_motor = Motor(Port.B)
 
-# Write your program here.
-ev3.speaker.beep()
+Chaosgame = Chaosgame_Dreieck(init_punkte=((70, 100), (10,10), (130, 10)))
+Chaosgame.game()
