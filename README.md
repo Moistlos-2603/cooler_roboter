@@ -1,2 +1,2 @@
 # cooler_roboter
-er ist super toll 
+das folgendes ist eine Implementation des Chaosgames für den Lego EV3 Brick
