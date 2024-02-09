@@ -12,7 +12,7 @@ from module.aufgaben import aufgabe1
 from berechnen import *
 import _thread
 from chaosgame import Chaosgame_Dreieck
-
+import uasyncio 
 from main_controler import Main_Controler
 # This program requires LEGO EV3 MicroPython v2.0 or higher.
 # Click "Open user guide" on the EV3 extension tab for more information.
@@ -95,16 +95,13 @@ def th_func(achse, name):
 
     
 
-roboter = Main_Controler()
-# 
-roboter.einziehen()
-roboter.zero()
-# roboter.run_z(-90)
-roboter.to(40, 40)
-roboter.to(20, 20)
-
-# roboter.line(50, 50, 70, 70)
+    
+# roboter = Main_Controler()
+# roboter.run_z_grad(-40)
 
 
-# Chaosgame = Chaosgame_Dreieck(init_punkte=((50, 50), (25,25), (75, 25)))
-# Chaosgame.game()
+
+
+
+Chaosgame = Chaosgame_Dreieck(init_punkte=((70, 100), (10,10), (130, 10)))
+Chaosgame.game()
