@@ -41,6 +41,8 @@ class Chaosgame_Dreieck(Chaosgame):
     self.init_punkt2 = init_punkte[1] 
     self.init_punkt3 = init_punkte[2]
 
+    self.controler.zero()
+
     print("1")
     self.controler.point(*self.init_punkt1)
     print("2")
@@ -48,8 +50,7 @@ class Chaosgame_Dreieck(Chaosgame):
     print("3")
     self.controler.point(*self.init_punkt3)
 
-    self.controler.einziehen()
-    self.controler.zero()
+    
 
 
     self.first_point()
@@ -67,17 +68,22 @@ class Chaosgame_Dreieck(Chaosgame):
       if self.check_if_inside(first_point):
         not_inside = False
         self.controler.point(*first_point)
-        point = first_point
+        self.point = first_point
 
-  def game(self, iterations = 1000):
+  def game(self, iterations = 5000):
     eckpunkte = {0 : self.init_punkt1, 1:self.init_punkt2, 2:self.init_punkt3}
     for i in range(iterations):
+      if i % 50 == 0 and i > 0:
+        self.controler.zero()
       print(i)
       point_id = random.randint(0, 2)
       self.point = self.new_pos(self.point, eckpunkte[point_id])
-      self.controler.point(self.point)
+      self.controler.point(*self.point)
 
   def new_pos(self, point0:(int, int), point1:(int, int)):
+    print("New pos x:")
+    print(int(abs( (point0[0] - point1[0]) /2  + point1[0])))
+    print(int(abs( (point0[1] - point1[1]) /2  + point1[1])))
     return (
       # X
       int(abs( (point0[0] - point1[0]) /2  + point1[0])) ,
